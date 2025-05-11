@@ -1,0 +1,33 @@
+$body = @{ email="test@test.com"; password="Pa$$w0rd" } | ConvertTo-Json
+
+
+Invoke-RestMethod `
+  -Uri 'http://localhost:5333/api/auth/register' `
+  -Method POST `
+  -ContentType 'application/json' `
+  -Body $body
+
+
+
+$token = (Invoke-RestMethod -Uri 'http://localhost:5333/api/auth/login' -Method POST -ContentType 'application/json' -Body $body).token
+
+# List current items (should be empty at first)
+Invoke-RestMethod `
+  -Uri 'http://localhost:5333/api/todoitems' `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -Method GET
+
+
+# Create a brand-new backlog item
+$body = @{
+  name       = "My first task"
+  isComplete = $false
+  priority   = 0
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Uri 'http://localhost:5333/api/todoitems' `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -Method POST `
+  -ContentType 'application/json' `
+  -Body $body

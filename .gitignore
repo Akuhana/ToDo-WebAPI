@@ -1,0 +1,28 @@
+# === .NET build outputs ===
+WebAPI/bin/
+WebAPI/obj/
+
+# === User-specific IDE settings ===
+WebAPI/*.user
+.vscode/
+.idea/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === EF / local dev DB ===
+WebAPI/app.db
+
+# === Local dev config ===
+WebAPI/appsettings.Development.json
+
+# === Logs & temp files ===
+*.log
+*.pid
+
+# === Node/npm if you add Angular later ===
+node_modules/
+dist/
+
+.vs/
