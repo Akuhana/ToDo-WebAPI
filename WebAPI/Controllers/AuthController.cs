@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using WebAPI.Models;
 using WebAPI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
@@ -82,5 +83,26 @@ namespace WebAPI.Controllers
                 expiration = token.ValidTo
             });
         }
+
+        /// <summary>
+        /// Checks if the current JWT token is valid.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("validate")]
+        public async Task<IActionResult> Validate([FromServices] UserManager<ApplicationUser> users)
+        {
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? throw new InvalidOperationException("User id claim missing");
+            var user = await users.FindByIdAsync(userId!);
+
+            // Check if user exists
+            if (user is null)
+                return Unauthorized(new { message = "User no longer exists" });
+
+            return Ok(new { message = "Token is valid and user exists" });
+        }
+
     }
 }

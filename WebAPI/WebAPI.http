@@ -1,16 +1,4 @@
 @WebAPI_HostAddress = http://localhost:5278
 
-GET {{WebAPI_HostAddress}}/weatherforecast/
-Accept: application/json
 
-###
 
-POST {{WebAPI_HostAddress}}/api/todoitems
-Content-Type: application/json
-
-{
-  "name": "walk dog",
-  "isComplete": true
-}
-
-###
